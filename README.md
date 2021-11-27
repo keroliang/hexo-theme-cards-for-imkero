@@ -1,3 +1,27 @@
+Hexo Theme Cards for blog.imkero.com
+===
+
+## 增加
+
+1. [RUM 前端监控](https://cloud.tencent.com/product/rum) 接入
+2. [quicklink](https://www.npmjs.com/package/quicklink) 页面预载
+3. 独白（类似“说说/动态/微博”的功能）页面
+   
+   参见 https://blog.imkero.com/posts/microblog-in-the-blog.html
+
+## 修改
+
+1. 导航栏样式
+2. 页脚布局
+3. 文章列表样式
+4. 归档页面样式
+
+> 注意：一部分样式的修改可能导致主题在 darkmode 下样式不正常
+
+---
+
+以下为原项目 README
+
 <center><h1>Cards | Theme for Hexo</h1></center>
 
 ![](https://theme-cards.ichr.me/assets/img/info.png)
@@ -7,6 +31,8 @@
 >   简洁 · 快速 · 强大
 
 正如其名，「Cards」，一款 单栏样式 & 卡片式设计 的现代 Hexo 主题。
+
+
 
 ## Demo 演示
 

@@ -299,7 +299,7 @@ comments:
     envId: # 你的 CloudBase 环境 ID
 
 # 独白
-# 参见 
+# 参见 https://blog.imkero.com/posts/microblog-in-the-blog.html
 soliloquize:
   # 独白列表 JSON 文件 URL
   list_url: ''
