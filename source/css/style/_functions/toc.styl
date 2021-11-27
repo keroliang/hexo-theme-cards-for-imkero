@@ -4,10 +4,19 @@
     overflow auto
     list-style-type none
     padding-left 0
+    line-height 2
 
 
     .toc-link
-        color #808080
+        color $color_secondary
+    
+    @media screen and (min-width: 1080px)
+        &:hover .toc-link
+            color $color_primary
+
+    .toc-link:hover
+        text-decoration none
+        color $color_theme
 
     .toc-child
         padding-left 0.6rem
@@ -29,8 +38,22 @@
     *
         margin 8px
 
-    &:focus + .toc-menus
+    &.active + .toc-cancel + .toc-menus
         display block
+
+    &.active + .toc-cancel
+        display block
+
+.toc-cancel
+    display: none
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    z-index 1000
+    user-select: none
+    -webkit-user-select: none
 
 .toc-menus
     display none
@@ -46,12 +69,9 @@
     box-shadow 1px 1px 5px 0 rgba(0,0,0,.02),1px 1px 15px 0 rgba(0,0,0,.03)
     z-index 9999
 
-    &:hover
-        display block
-
     .toc-title
         font-size 0.9rem
-        color #808080
+        color $color_secondary
         margin-bottom 0.8rem
         padding-bottom 0.2rem
         border-bottom 1px solid #eaecef
@@ -71,7 +91,7 @@
             display none
             width 'calc((100vw - %s) / 2 - 12.6px)' % $max_width_main
             height 'calc(100vh - %s * 2 - 20px)' % $header_height
-            padding-left 0.6rem
+            padding-left 1.2rem
 
 
 @media screen and (max-width: 1246px)

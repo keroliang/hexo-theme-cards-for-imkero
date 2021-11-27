@@ -1,0 +1,15 @@
+<% if (theme.analytics && theme.analytics.aegis_id) { %>
+    <script src="https://cdn-go.cn/aegis/aegis-sdk/latest/aegis.min.js" defer></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (window.Aegis) {
+            const aegis = new Aegis({
+                id: '<%= theme.analytics.aegis_id %>',
+                reportAssetSpeed: true,
+            });
+
+            window.aegis = aegis;
+        }
+    });
+    </script>
+<% } %>

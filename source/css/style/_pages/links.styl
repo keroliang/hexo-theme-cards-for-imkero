@@ -18,7 +18,7 @@
             color: #444
             background: #fff
             border-radius $radius_main
-            box-shadow 1px 5px 15px 0 rgba(0,0,0,.3)
+            border 1px solid #e1e4e8
             justify-content: flex-start
             align-content: flex-start
             flex-direction: column
@@ -33,6 +33,9 @@
 
             @media screen and (max-width: 768px)
                 width: "calc(100%/1 - %s)" % 16px
+            
+            &:hover .links-name
+                color $color_theme
 
         .links-left
             display: flex

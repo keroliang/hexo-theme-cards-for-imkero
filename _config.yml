@@ -87,34 +87,35 @@ style:
 
   # 颜色配置
   color: 
-    main_color: '#eb5757'
+    main_color: '#328dff'
+    meta_theme_color: '#3d485d'
 
   # 弧度设置
   radius: 
-    main_radius: 5px
+    main_radius: 0px
     
   # 间距设置
   space: 
-    main_space: 3.5rem
+    main_space: 2.5rem
     sm_space: 1.5rem  # 当屏幕宽度小于 650px 时候启用
 
   # 默认代码高亮
   highlight: 
 
     # 默认代码高亮主题
-    default: 
+    default: atom-one-light
 
     # 暗色代码高亮主题
-    darkmode: 
+    darkmode: atom-one-dark
 
   # highlight.js 代码高亮
   hljs: 
 
     # 默认代码高亮主题
-    default: 
+    default: atom-one-light
 
     # 暗色代码高亮主题
-    darkmode: 
+    darkmode: atom-one-dark
 
   # prismjs 代码高亮
   prismjs: 
@@ -175,10 +176,8 @@ meta:
   copyright: 
     enable: false
     
-    # 在作者声明和永久链接之后，可以多行，支持 markdown
-    custom_text:
-      # - ''
-      # - ''
+    license_name: 'CC BY-NC-SA 4.0'
+    license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh
 
 
 
@@ -299,6 +298,15 @@ comments:
   twikoo:
     envId: # 你的 CloudBase 环境 ID
 
+# 独白
+# 参见 
+soliloquize:
+  # 独白列表 JSON 文件 URL
+  list_url: ''
+  
+  # meting API
+  # https://your-meting-api-server/path/to/api?server=:server&type=:type&id=:id&auth=:auth
+  meting_api_url: ''
 
 
 # ---------------------------------------------------------------
@@ -311,7 +319,7 @@ analytics:
   baidu_site_id: 
   cnzz_site_id: 
   cloudflare_site_id: 
-
+  aegis_id:
 
 
 # ---------------------------------------------------------------
@@ -400,7 +408,10 @@ back_to_top: false
 # 深色模式
 darkmode: false
 
-
+# quicklink
+quicklink:
+  enable: true
+  ignores: '[/\.xml$/, (uri, elem) => !!elem.hash]'
 
 # ---------------------------------------------------------------
 # CDN for vendors

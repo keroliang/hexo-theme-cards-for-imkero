@@ -2,7 +2,13 @@
 <% if (page.cover !== false) { %>
     <div class="cover">
         <div class="cover__logo">
-            <% if (theme.cover.avatar) { %>
+            <% if (is_category()) { %>
+                <h1><%= __('navbar.category') + __('symbol.colon') + page.category %></h1>
+            <% } else if (is_tag()) { %>
+                <h1><%= __('navbar.tag') + __('symbol.colon') + page.tag %></h1>
+            <% } else if (is_archive()) { %>
+                <h1><%= __('navbar.archive') %></h1>
+            <% } else if (theme.cover.avatar) { %>
                 <img no-lazy alt="author Image" class="cover__avatar" src="<%= url_for(theme.cover.avatar) %>">
             <% } else if (theme.cover.sitename) { %>
                 <h1><%= theme.cover.sitename %></h1>
@@ -11,7 +17,11 @@
             <% } %>
         </div>
         
-        <% if (theme.cover.description) { %>
+        <% if (is_category() || is_tag() || is_archive()) { %>
+            <div class="cover__intro">
+                共 <%= page.posts.length %> 篇文章
+            </div>
+        <% } else if (theme.cover.description) { %>
             <div class="cover__intro">
                 <%- markdown(theme.cover.description) %> 
             </div>

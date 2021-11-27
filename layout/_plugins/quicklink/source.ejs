@@ -1,0 +1,13 @@
+<% if (theme.quicklink.enable === true) { %>
+    <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" defer></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (window.quicklink) {
+            quicklink.listen({
+                ignores: <%- theme.quicklink.ignores %>,
+            });
+        }
+    });
+    </script>
+<% } %>

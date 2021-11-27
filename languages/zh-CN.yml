@@ -5,7 +5,7 @@ page:
 navbar:
   home: 首页
   link: 友链
-  archive: 归档
+  archive: 文章目录
   category: 分类
   tag: 标签
   top: 回到顶部
@@ -21,9 +21,11 @@ post:
   updated: '更新于 '
   prev_page: 上一页
   next_page: 下一页
+  prev: 新文章
+  next: 旧文章
   toc: 文章目录
   copyright: 
-    author: '本文作者：'
+    author: '本文作者'
     permalink: '本文链接：'
   expire: "本文最后更新于 %s 天前，文中部分描述可能已经过时。"
 symbol:

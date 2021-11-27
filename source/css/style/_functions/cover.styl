@@ -1,12 +1,13 @@
 .cover
     display block
     text-align center
-    margin 3rem auto
+    margin $cover_top_margin auto ($cover_bottom_margin - $main_margin_top)
 
     .cover__logo
         max-width $max_width_logo
         margin-left auto
         margin-right auto
+        font-family $font_family_title
 
     .cover__avatar
         border-radius 50%
@@ -15,4 +16,6 @@
         margin 0 auto 1rem auto
     
     .cover__intro
-        color: #999
+        color $color_secondary
+
+        

@@ -5,59 +5,106 @@
 .post-entry
     margin-bottom var(--space)
     position relative
+    box-shadow 0 2px 4px rgba(3,27,78,.06)
+    transition none
 
-    &:hover
-        transform translateY(-5px)
-        box-shadow 1px 10px 30px 0 rgba(0,0,0,.1)
+.post-list-card
+    background-color var(--bg-content-color)
+    max-width var(--content-width)
+    margin 0 auto calc(var(--space) * 0.6)
+    transition background-color .6s
+    padding calc(var(--space) * 0.6) calc(var(--space) * 0.8)
+    border-radius $radius_main
+    border 1px solid #E5E8ED
+
+    &>:first-child
+        margin-top 0
+
+    &>:last-child
+        margin-bottom 0
+    
+    @media screen and (max-width:650px)
+        padding calc(var(--space) * 0.8) calc(var(--space) * 0.8)
 
 .post-entry__content
+    color $color_secondary
     .post-entry__title
-        color var(--title-color)
-        margin-top 0
+        color $color_title
+        margin 0
+        padding-bottom 0
         border none
-        font-size 1.5rem
-        font-weight 450
-        line-height 1.125
+        font-size 1.4rem
+        font-weight 600
+        transition-duration .2s
+        font-family: $font_family_title
+        line-height: 1.4
+        &:hover
+            color var(--theme-color)
+        @media screen and (max-width:650px)
+            font-size 1.2rem
+
+.post-entry__meta
+    @media screen and (max-width:650px)
+        font-size .9em
 
 .post-meta__cats
 .post-entry__tags
     display inline-block
     position relative
-    margin 1em 0 0
     z-index 1
 
     &:empty
         display none
 
 .post-entry__link
-    position absolute
-    top 0
-    left 0
-    width 100%
-    height 100%
-    opacity 0
-    overflow hidden
-    text-indent -9999px
-    z-index 0
+    &:hover
+        text-decoration none !important
 
 .post-title
-    padding calc(var(--space)/2) 0 calc(var(--space)/2)
     text-align center
+    margin ($cover_top_margin - $main_margin_top) 0 $cover_bottom_margin 0
+
+.is-page .post-title__text
+    font-size: 40px
+    @media screen and (max-width:650px)
+        font-size: 36px
+
+.cover .cover__logo > h1
+    font-size: 40px
+    @media screen and (max-width:650px)
+        font-size: 36px
+
+.post-title__text
+    font-family $font_family_title
+    font-weight 700
+    margin-top: 0
 
 .post-meta__date
-    color #808080
+    color $color_secondary
 
-.post-entry__meta
 .post-title__meta
+.post-entry__meta
     display block
     z-index 1
     position relative
-    font-size .8em
-    opacity .8
-    font-family rubik,sans-serif
+
+    color: $color_secondary
 
     &:empty
         display none
+    
+    .post-meta__category
+        color: $color_secondary
+        &:hover
+            color var(--theme-color)
+
+.post-entry__meta
+    margin-top calc(var(--space) * 0.3)
+    line-height: 1
+
+.post-title__meta
+    margin-bottom calc(var(--space) * 0.2)
+    line-height: 1.8
 
 .post-entry__header
 .post__header
@@ -92,16 +139,26 @@
         margin auto
         border-radius 4px
 
+    a[href]:not(.button)
+        border-bottom 2px solid transparent
+        color $color_theme
+        text-decoration none
+        &:hover
+            border-color $color_theme
+            color $color_theme
+            text-decoration none
+
     span
         img
             display inline
             margin auto
 
+    h2:first-child
+        margin-top 0
 
 .post__comments
     max-width var(--content-width)
     margin var(--space) auto
-    font-family rubik,sans-serif
 
     &:empty
         display none
@@ -130,17 +187,56 @@
 .post-tags__link
     background-color var(--bg-tag-color)
 
-.post__license
-    background-color rgb(245, 245, 245)
-    word-break break-all
-    margin 3em 0 1em 0
-    padding 0.5rem 0.8rem
-    border-left 4px solid rgb(244, 67, 54)
-    list-style none
+.post__license {
+    position: relative;
+    line-height: 1.2;
+    font-size: 1rem;
+    background: $color_background;
+    color: $color_primary;
+    margin: 2rem calc(-1 * var(--space)) 0;
+    overflow: hidden;
+    display: block;
+    padding: 1.25em 2.5em
+}
 
-    p 
-        margin 3px 1px 3px 1px
-        padding 0
+.post__license:after {
+    position: absolute;
+    background: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 496 512'%3E%3Cpath fill='%234a4a4a' d='M245.8 214.9l-33.2 17.3c-9.4-19.6-25.2-20-27.4-20-22.2 0-33.3 14.6-33.3 43.9 0 23.5 9.2 43.8 33.3 43.8 14.4 0 24.6-7 30.5-21.3l30.6 15.5a73.2 73.2 0 01-65.1 39c-22.6 0-74-10.3-74-77 0-58.7 43-77 72.6-77 30.8-.1 52.7 11.9 66 35.8zm143 0l-32.7 17.3c-9.5-19.8-25.7-20-27.9-20-22.1 0-33.2 14.6-33.2 43.9 0 23.5 9.2 43.8 33.2 43.8 14.5 0 24.7-7 30.5-21.3l31 15.5c-2 3.8-21.3 39-65 39-22.7 0-74-9.9-74-77 0-58.7 43-77 72.6-77C354 179 376 191 389 214.8zM247.7 8C104.7 8 0 123 0 256c0 138.4 113.6 248 247.6 248C377.5 504 496 403 496 256 496 118 389.4 8 247.6 8zm.8 450.8c-112.5 0-203.7-93-203.7-202.8 0-105.5 85.5-203.3 203.8-203.3A201.7 201.7 0 01451.3 256c0 121.7-99.7 202.9-202.9 202.9z'/%3E%3C/svg%3E");
+    content: ' ';
+    height: 200px;
+    width: 200px;
+    right: -40px;
+    top: -45px;
+    opacity: .1
+}
+
+.license-meta-title, .license-title {
+    margin: 0 0 .25rem
+}
+
+.license-link,.license-meta-title {
+    font-size: .8rem
+}
+
+.license-meta-text
+    margin 0
+    .license-meta-link 
+        color $color_primary
+
+.license-meta {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap
+}
+
+.license-meta-item {
+    margin: 0 2rem 1em 0
+}
+
+.post__license .license-link 
+    color $color_secondary
 
 .post__expire
     display none

@@ -1,0 +1,11 @@
+<%- partial('page') %>
+<script>
+window.blogPvCallback = function (data) {
+  const pvSpan = document.getElementById("blog-pv");
+  const uvSpan = document.getElementById("blog-uv");
+  pvSpan.innerText = String(data.pv);
+  uvSpan.innerText = String(data.uv);
+};
+</script>
+
+<script async src="https://imkero-static-1255707222.cos.ap-guangzhou.myqcloud.com/stat/pv.js"></script>

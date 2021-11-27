@@ -1,0 +1,412 @@
+<% page.cover=false; page.comments=false; %>
+<main class="main">
+  <div class="post-title is-page">
+    <h1 class="post-title__text">
+      <%= page.title || theme.meta.title %>
+    </h1>
+    <div class="post-title__meta">
+      <%= page.excerpt %>
+    </div>
+  </div>
+
+  <div class="soliloquize-root is-loading" id="soliloquize-root">
+    <div class="soliloquize-entry" id="soliloquize-entry-template">
+      <div class="soliloquize-entry__meta">
+        <span class="soliloquize-entry__time">2021-02-14</span>
+        <span class="soliloquize-entry__meta-sep-1"> / </span>
+        <span class="soliloquize-entry__category">分类</span>
+      </div>
+      <div class="soliloquize-entry__content"><p>模板</p></div>
+    </div>
+
+    <div id="soliloquize-header">
+      <div class="soliloquize-header__left">共 <span id="soliloquize-count">-</span> 条</div>
+      <div class="soliloquize-header__right">
+        <span class="soliloquize-header_btn soliloquize-page-btn is-disabled" id="soliloquize-header__prev-page" onclick="soliloquizeSwitchPrevPage()">
+          <i class="soliloquize-page-icon soliloquize-left-icon"></i>
+        </span>
+        <span class="soliloquize-header_btn soliloquize-page-text" id="soliloquize-header__current-page">1</span>
+        <span class="soliloquize-header_btn soliloquize-page-btn is-disabled" id="soliloquize-header__next-page" onclick="soliloquizeSwitchNextPage()">
+          <i class="soliloquize-page-icon soliloquize-right-icon"></i>
+        </span>
+      </div>
+    </div>
+
+    <div class="soliloquize-entry soliloquize-loading-indicator">
+      <i class="tea-icon tea-icon-loading soliloquize-indicator-icon"></i>
+      加载中...
+    </div>
+
+    <div class="soliloquize-entry soliloquize-error-indicator">
+      <i class="tea-icon tea-icon-error soliloquize-indicator-icon"></i>
+      加载失败，<a onclick="refreshSoliloquize()">点击重新加载</a>
+    </div>
+  
+    <div id="soliloquize-list-root"></div>
+
+    <div class="soliloquize-pagination">
+      <a class="button soliloquize-pagination__prev-btn is-disabled" id="soliloquize-pagination__prev-btn" onclick="soliloquizeSwitchPrevPage(true)">« 前一页</a>
+      <span class="soliloquize-pagination__page-num">
+        <span>第</span>
+        <span class="soliloquize-pagination__current-page" id="soliloquize-pagination__current-page">1</span>
+        <span class="soliloquize-pagination__page-sep">/</span>
+        <span class="soliloquize-pagination__total-page" id="soliloquize-pagination__total-page">3</span>
+        <span>页</span>
+      </span>
+      <a class="button soliloquize-pagination__next-btn" id="soliloquize-pagination__next-btn" onclick="soliloquizeSwitchNextPage(true)">后一页 »</a>
+    </div>
+
+    <div id="soliloquize-image-fullscreen" class="soliloquize-image-fullscreen" onclick="soliloquizeImageClose()">
+      <div class="close-btn" onclick="soliloquizeImageClose()">×</div>
+      <div class="aligner">
+        <img id="soliloquize-image-fullscreen__image" class="image-container" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTggMTZBOCA4IDAgMSAxIDggMHYyYTYgNiAwIDEgMCA2IDZoMmE4IDggMCAwIDEtOCA4eiIgZmlsbD0iIzAwNmVmZiIgZmlsbC1ydWxlPSJldmVub2RkIi8+PC9zdmc+" />
+      </div>
+    </div>
+  </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@3.6.2/dist/fetch.umd.js" integrity="sha256-+pQdxwAcHJdQ3e/9S4RK6g8ZkwdMgFQuHvLuN5uyk5c=" crossorigin="anonymous" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js" integrity="sha256-6Y7CJDaltoeNgk+ZftgCD9jLgmGv4xKUo8nQ0HgAwVo=" crossorigin="anonymous" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" integrity="sha256-uqQQGnDcmRKvhKwc5Vm4XT1GQ2oV6t1U0NR2N9tV+BQ=" crossorigin="anonymous">
+<script>
+(function () {
+  const padNumber = function (num) {
+    if (num < 10) return "0" + num;
+    else return "" + num;
+  };
+
+  const pageSize = 10;
+
+  const fetchSoliloquizeList = function () {
+    return fetch("<%= theme.soliloquize.list_url %>", {
+      method: "GET",
+      mode: "cors",
+    }).then(function (response) {
+      return response.json();
+    }).then(function (data) {
+      if (!Array.isArray(data)) {
+        throw new Error("fetchSoliloquize error: invalid response");
+      }
+
+      return data;
+    });
+  };
+
+  const showImageFullscreen = function (imgSrc) {
+    const container = document.getElementById("soliloquize-image-fullscreen");
+    const img = container.querySelector(".image-container");
+    img.src = imgSrc;
+    container.classList.add("is-opened");
+    document.documentElement.style.overflow = "hidden";
+  };
+
+  const soliloquizeImageClose = window.soliloquizeImageClose = function () {
+    const container = document.getElementById("soliloquize-image-fullscreen");
+    container.classList.remove("is-opened");
+    document.documentElement.style.overflow = "auto";
+  };
+
+  document.addEventListener("keyup", function (evt) {
+    if (evt.key === "Escape") {
+      const container = document.getElementById("soliloquize-image-fullscreen");
+      if (container.classList.contains("is-opened")) {
+        soliloquizeImageClose();
+      }
+    }
+  });
+
+  document.getElementById("soliloquize-image-fullscreen__image").addEventListener("click", function (evt) {
+    evt.stopPropagation();
+  });
+
+  const aplayerInstances = [];
+
+  const destroyOldPlayers = function () {
+    aplayerInstances.forEach(function (instance) {
+      instance.destroy();
+    });
+
+    aplayerInstances.length = 0;
+  };
+
+  const createAplayer = function (container, options) {
+    const combinedOptions = Object.assign({
+      container,
+      loop: "none",
+      volume: 1,
+      preload: "none",
+    }, options);
+
+    const instance = new APlayer(combinedOptions);
+
+    instance.on("play", function () {
+      const index = instance.list.index;
+      const song = instance.list.audios[index];
+
+      if (window.aegis) {
+        window.aegis.reportEvent({
+          name: "播放音乐",
+          ext1: song.name,
+        });
+      }
+    });
+
+    if ('mediaSession' in navigator) {
+      instance.on("play", function () {
+        const index = instance.list.index;
+        const song = instance.list.audios[index];
+
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: song.name,
+          artist: song.artist,
+          artwork: [
+            { src: song.coverLarge, sizes: '512x512', type: 'image/jpeg' },
+            { src: song.cover, sizes: '130x130', type: 'image/jpeg' },
+          ]
+        });
+      });
+    }
+
+    aplayerInstances.push(instance);
+
+    return instance;
+  };
+
+  const METING_API = "<%- theme.soliloquize.meting_api_url %>";
+
+  const fetchMusicInfoByMeting = function (meta) {
+    const apiUrl = METING_API
+      .replace(':server', encodeURIComponent(meta.server))
+      .replace(':type', encodeURIComponent(meta.type))
+      .replace(':id', encodeURIComponent(meta.id))
+      .replace(':auth', encodeURIComponent(meta.auth))
+      .replace(':r', encodeURIComponent(Math.random()));
+
+    return fetch(apiUrl).then(res => res.json());
+  }
+
+  const renderSoliloquizeMeta = function (soliloquize, node) {
+    // 时间
+    const createTime = new Date(soliloquize.createTime);
+    node.querySelector(".soliloquize-entry__time").innerText = `${createTime.getFullYear()}/${createTime.getMonth() + 1}/${createTime.getDate()} ${padNumber(createTime.getHours())}:${padNumber(createTime.getMinutes())}`;
+
+    // 分类
+    if (soliloquize.category) {
+      node.classList.add("has-category");
+      node.querySelector(".soliloquize-entry__category").innerText = soliloquize.category;
+    }
+  };
+
+  const renderSoliloquizeContent = function (soliloquize, node) {
+    // 内容
+    const contentNode = node.querySelector(".soliloquize-entry__content");
+    contentNode.innerHTML = soliloquize.content;
+
+    // 图片点击放大
+    contentNode.querySelectorAll("img").forEach(function (img) {
+      img.style.cursor = "pointer";
+      img.addEventListener("click", function () {
+        showImageFullscreen(img.src);
+      });
+    });
+
+    // 外链处理
+    contentNode.querySelectorAll("a").forEach(function (el) {
+      if (el.dataset.isMusic) {
+        return;
+      }
+
+      if (el.href.startsWith("http:") || el.href.startsWith("https:") || el.href.startsWith("//")) {
+        el.rel = "noopener noreferrer nofollow";
+        el.target = "_blank";
+      }
+    });
+  };
+
+  const renderSoliloquizeMusic = function (soliloquize, node) {
+    // 音乐
+    const contentNode = node.querySelector(".soliloquize-entry__content");
+
+    contentNode.querySelectorAll("a[data-is-music]").forEach(function (el) {
+      const meta = {
+        server: el.dataset.server,
+        type: el.dataset.type,
+        id: el.dataset.id,
+        auth: el.dataset.auth,
+      };
+
+      const text = el.innerText;
+
+      el.classList.add("is-loading");
+      el.innerText = text + " [加载中…]";
+
+      const blockEvent = function (evt) {
+        evt.preventDefault();
+      };
+
+      el.addEventListener("click", blockEvent);
+
+      fetchMusicInfoByMeting(meta).then(function (audioList) {
+        const div = document.createElement("div");
+        el.parentNode.insertBefore(div, el);
+        el.parentNode.removeChild(el);
+        createAplayer(div, {
+          audio: audioList,
+          lrcType: 3,
+        });
+      }).catch(function (err) {
+        console.error(err);
+        el.innerText = text;
+        el.classList.remove("is-loading");
+        el.removeEventListener("click", blockEvent);
+      });
+    });
+  };
+
+  const renderSoliloquize = function (soliloquize) {
+    const template = document.getElementById("soliloquize-entry-template");
+    const node = template.cloneNode(true);
+    node.removeAttribute("id");
+
+    renderSoliloquizeMeta(soliloquize, node);
+    renderSoliloquizeContent(soliloquize, node);
+    renderSoliloquizeMusic(soliloquize, node);
+
+    return node;
+  };
+
+  const renderSoliloquizeList = function (soliloquizeList) {
+    const fragment = document.createDocumentFragment();
+
+    soliloquizeList.forEach(function (soliloquize) {
+      const node = renderSoliloquize(soliloquize);
+      fragment.appendChild(node);
+    });
+
+    return fragment;
+  };
+
+  const setButtonDisabled = function (btn, disabled) {
+    if (disabled) {
+      btn.classList.add("is-disabled");
+    } else {
+      btn.classList.remove("is-disabled");
+    }
+  };
+
+  const getPageTotal = function () {
+    return Math.max(1, Math.ceil(window.soliloquizeList.length / pageSize));
+  };
+
+  const soliloquizeSwitchPage = function (page) {
+    window.soliloquizeCurrentPage = page;
+
+    const listRoot = document.getElementById("soliloquize-list-root");
+    
+    const list = window.soliloquizeList.slice((page - 1) * pageSize, page * pageSize);
+    const fragment = renderSoliloquizeList(list);
+
+    destroyOldPlayers();
+
+    listRoot.innerHTML = "";
+    listRoot.appendChild(fragment);
+
+    const prevBtn = document.getElementById("soliloquize-pagination__prev-btn");
+    const headerPrevBtn = document.getElementById("soliloquize-header__prev-page");
+    const nextBtn = document.getElementById("soliloquize-pagination__next-btn");
+    const headerNextBtn = document.getElementById("soliloquize-header__next-page");
+
+    const currentPage = document.getElementById("soliloquize-pagination__current-page");
+    const totalPage = document.getElementById("soliloquize-pagination__total-page");
+
+    const headerTotalCount = document.getElementById("soliloquize-count");
+    const headerCurrentPage = document.getElementById("soliloquize-header__current-page");
+
+    const pageTotal = getPageTotal();
+
+    setButtonDisabled(prevBtn, page === 1);
+    setButtonDisabled(headerPrevBtn, page === 1);
+
+    setButtonDisabled(nextBtn, page === pageTotal);
+    setButtonDisabled(headerNextBtn, page === pageTotal);
+
+    currentPage.innerText = page;
+    headerCurrentPage.innerText = page;
+    totalPage.innerText = pageTotal;
+
+    headerTotalCount.innerText = window.soliloquizeList.length;
+    
+    if (window.aegis) {
+      window.aegis.reportEvent({
+        name: "独白翻页",
+        ext1: page,
+      });
+    }
+  };
+
+  const scrollToTop = function () {
+    const headerElement = document.getElementById("soliloquize-header");
+    window.scrollTo({
+      top: headerElement.offsetTop - 20,
+      behavior: "smooth"
+    });
+  };
+
+  window.soliloquizeList = [];
+
+  window.soliloquizeSwitchPrevPage = function (needScroll = false) {
+    const targetPage = Math.max(1, window.soliloquizeCurrentPage - 1);
+    if (targetPage === window.soliloquizeCurrentPage) {
+      return;
+    }
+
+    soliloquizeSwitchPage(targetPage);
+    if (needScroll) {
+      scrollToTop();
+    }
+  };
+
+  window.soliloquizeSwitchNextPage = function (needScroll = false) {
+    const targetPage = Math.min(getPageTotal(), window.soliloquizeCurrentPage + 1);
+    if (targetPage === window.soliloquizeCurrentPage) {
+      return;
+    }
+    
+    soliloquizeSwitchPage(targetPage);
+    if (needScroll) {
+      scrollToTop();
+    }
+  };
+  
+  window.refreshSoliloquize = function () {
+    window.soliloquizeList = [];
+
+    const rootElement = document.getElementById("soliloquize-root");
+    rootElement.classList.remove("is-error");
+    rootElement.classList.add("is-loading");
+
+    fetchSoliloquizeList().then(function (soliloquizeList) {
+      window.soliloquizeList = soliloquizeList;
+
+      rootElement.classList.remove("is-loading");
+      rootElement.classList.add("has-loaded");
+
+      soliloquizeSwitchPage(1);
+    }).catch(function (error) {
+      console.error("fetchSoliloquize error:", error);
+      rootElement.classList.add("is-error");
+      rootElement.classList.remove("is-loading");
+
+      if (window.aegis) {
+        window.aegis.error({
+          msg: "独白加载失败",
+          ext1: error,
+        });
+      }
+    });
+  };
+})();
+
+document.addEventListener("DOMContentLoaded", function () {
+  window.refreshSoliloquize();
+});
+</script>

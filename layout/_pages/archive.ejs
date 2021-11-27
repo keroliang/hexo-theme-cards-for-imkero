@@ -1,46 +1,46 @@
-<main class='main'>
+<main class="main">
+    <% page.cover = false; %>
+    <div class="post-title is-page">
+        <h1 class="post-title__text">
+            <%= __('navbar.archive') %>
+        </h1>
+        <div class="post-title__meta">
+            共 <%= page.posts.length %> 篇文章
+        </div>
+    </div>
     <% if (page.year || page.month) { %>
 		<%- partial('_partial/post/post-list') %>
 	<% } else { %>
-        <div class="archives">
-            <%
-            var yr = -1, pd = -1;
-            site.posts.sort('date', -1).forEach((post) => {
-                post.year = date(post.date, 'YYYY');
-                if (post.year !== yr) {
-                    yr = post.year;
-            %>
-                    <div class="archives-item">
-                        <div class="archives-left">
-                            <div class="archives-icon icon-lg"></div>
-                        </div>
-                        <div class="archives-content">
-                            <h3 class="archives-year"><%= yr %></h3>
-                        </div>
-                    </div>
-                <% } %>
-                <div class="archives-item">
-                    <div class="archives-left">
-                        <div class="archives-icon">
-
-                        </div>
-                    </div>
-                    <span class="archives-content">
-                        <%= date(post.date, 'MM-DD') %>
-                        &nbsp;
-                        <a href="<%= url_for(post.link || post.path) %>">
-                            <span class="archives-title">
-                                <% if (post.title){ %>
-                                    <%= post.title %>
-                                <% } else if (post.date) { %>
-                                    <%= date(post.date, config.date_format) %>
-                                <% } %>
+        <article class="post post__with-toc content-card">
+            <div class="post__content">
+                <%
+                var yr = -1, pd = -1;
+                site.posts.sort('date', -1).forEach((post) => {
+                    post.year = date(post.date, 'YYYY');
+                    if (post.year !== yr) {
+                        yr = post.year;
+                %>
+                    <h2><%= yr %></h2>
+                    <% } %>
+                    <p>
+                        <div class="archives-article-item">
+                            <span class="archives-article-item__date"><%= date(post.date, 'MM-DD') %></span>
+                            <% (post.categories || []).forEach(function(cat) { %>
+                                <span class="archives-article-item__category-item">[<a href="<%= url_for(cat.path) %>" class="archives-article-item__category-link"><%= cat.name %></a>]</span>
+                            <% }); %>
+                            <span class="archives-article-item__right">
+                                <a href="<%= url_for(post.link || post.path) %>" class="archives-article-item__title">
+                                    <% if (post.title){ %>
+                                        <%= post.title %>
+                                    <% } else if (post.date) { %>
+                                        <%= date(post.date, config.date_format) %>
+                                    <% } %>
+                                </a>
                             </span>
-                        </a>
-                        <br><br>
-                    </span>
-                </div>
-            <% }) %>
-        </div>
+                        </div>
+                    </p>
+                <% }) %>
+            </div>
+        </article>
     <% } %>
 </main>

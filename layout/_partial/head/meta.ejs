@@ -22,7 +22,7 @@ if (is_archive()) {
 }
 %>
 
-<title><% if (title) { %><%= title %> | <% } %><%= config.title %></title>
+<title><% if (title) { %><%= title %> - <% } %><%= config.title %></title>
 
 <% if (keywords) { %>
     <meta name="keywords" content="<%= keywords %>">
@@ -30,4 +30,11 @@ if (is_archive()) {
 
 <% if (page.layout === 'search') { %>
     <link rel="canonical" href="<%= page.permalink %>">
+<% } %>
+
+<link rel="sitemap" href="/sitemap.xml" />
+
+<% if (page.layout === 'soliloquize') { %>
+    <link rel="prefetch" href="<%= theme.soliloquize.list_url %>" crossorigin>
+    <link rel="preconnect" href="<%= theme.soliloquize.meting_api_url.replace(/^(.*\/\/[^/]*?\/).*$/, '$1') %>">
 <% } %>

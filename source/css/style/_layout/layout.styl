@@ -5,8 +5,7 @@
     transition background-color .6s
     padding var(--space)
     border-radius $radius_main
-    box-shadow 1px 1px 5px 0 rgba(0,0,0,.02),1px 1px 15px 0 rgba(0,0,0,.03)
-    transition transform .3s,background-color .3s,box-shadow .6s
+    border 1px solid #E5E8ED
 
     &>:first-child
         margin-top 0
@@ -19,4 +18,6 @@
     overflow-y hidden
 
 .separate-dot:after
-    content ' · '
+    content '·'
+    margin-left 8px
+    margin-right 8px

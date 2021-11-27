@@ -1,4 +1,14 @@
+<% page.cover = false; %>
+
 <main class="main links">
+    <div class="post-title is-page">
+        <h1 class="post-title__text">
+            <%= page.title || theme.meta.title %>
+        </h1>
+        <div class="post-title__meta">
+            <%= page.excerpt %>
+        </div>
+    </div>
     <div class="links-list">
         <div class='links-content'>
             <% if (page.links && !Array.isArray(page.links)) { %>
@@ -63,3 +73,18 @@
         </div>
     </div>
 </main>
+
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".links-card").forEach((link) => {
+        link.addEventListener("click", () => {
+            if (window.aegis) {
+                window.aegis.reportEvent({
+                    name: "访问友链",
+                    ext1: link.href,
+                })
+            }
+        });
+    });
+});
+</script>

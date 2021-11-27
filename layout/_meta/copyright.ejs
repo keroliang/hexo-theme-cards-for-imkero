@@ -1,18 +1,24 @@
-<% if (theme.meta.copyright.enable && page.copyright !== false) { %>
+<% if (is_post() && theme.meta.copyright.enable && page.copyright !== false) { %>
     <div class="post__license">
-        <p>
-            <strong><%= __('post.copyright.author') %></strong><%= theme.meta.author.name %>
-        </p>
-        <p>
-            <strong>
-                <%= __('post.copyright.permalink') %>
-            </strong>
-            <a href="<%= page.permalink %>"><%= page.permalink %></a>
-        </p>
-        <% (theme.meta.copyright.custom_text || []).forEach((text) => { %>
-            <strong>
-                <%- markdown(text) %>
-            </strong>
-        <% }); %>
+        <div class="license-title"><%= page.title %></div>
+        <div class="license-link-line">
+            <a href="<%= page.permalink %>" class="license-link button"><%= page.permalink %></a>
+        </div>
+        <div class="license-meta">
+            <div class="license-meta-item">
+                <div class="license-meta-title"><%= __('post.copyright.author') %></div>
+                <div class="license-meta-text"><%= theme.meta.author.name %></div>
+            </div>
+            <div class="license-meta-item">
+                <div class="license-meta-title">最后更新</div>
+                <div class="license-meta-text"><%= date(page.updated, theme.meta.updated.format) %></div>
+            </div>
+            <div class="license-meta-item">
+                <div class="license-meta-title">许可协议</div>
+                <div class="license-meta-text">
+                    <a href="<%= theme.meta.copyright.license_url %>" rel="nofollow noopener noreferrer" target="_blank" class="button license-meta-link"><%= theme.meta.copyright.license_name %></a>
+                </div>
+            </div>
+        </div>
     </div>
 <% } %>

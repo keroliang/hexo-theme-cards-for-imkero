@@ -1,4 +1,4 @@
-<% if (theme.comments.use === 'disqusjs') { %>
+<% if ((is_post() || is_page()) && theme.comments.use === 'disqusjs') { %>
     <script>
         function loadComment() {
             let e, i;

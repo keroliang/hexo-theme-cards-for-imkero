@@ -1,64 +1,11 @@
-.archives
-    position relative
-    max-width var(--content-width)
-    margin 0 auto
+.archives-article-item__date
+    margin-right: 8px
 
-    .archives-item
-        display flex
-        margin-bottom 1.2rem
-        position relative
+.archives-article-item__category-item
+    margin-right: 4px
+    color: $color_secondary
 
-        .archives-left
-            flex 0 0 auto
-            box-flex 0
-
-        .archives-icon
-            border-radius 50%
-            color var(--main-color)
-            display block
-            height 1.6rem
-            text-align center
-            width 1.6rem
-
-            &.icon-lg
-                background var(--main-color)
-                line-height 1.2rem
-
-        .archives-content
-            flex 1 1 auto
-            box-flex 1
-            padding 2px 0 2px .8rem
-
-            .archives-year
-                margin 0
-            
-            .archives-title
-                color var(--title-color)
-                font-size 20px
-
-        .archives-icon::before
-            border .1rem solid var(--main-color)
-            border-radius 50%
-            content ""
-            display block
-            height .4rem
-            left .6rem
-            position absolute
-            top .8rem
-            width .4rem
-
-        &:hover
-            .archives-icon::before
-                background var(--main-color)
-
-        &::before
-            background #e7e9ed
-            content ""
-            height 100%
-            left .8rem
-            position absolute
-            top 1.6rem
-            width 2px
-
-        &:last-child::before
-            background 0 0
+.archives-article-item__category-link
+    color: $color_secondary !important
+    &:hover
+        border-color: $color_secondary !important

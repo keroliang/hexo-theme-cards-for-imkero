@@ -10,7 +10,9 @@
         }
         %>
         <p class="footer-copyright">
-            Copyright © <%- copyright_yr %> <a href="<%= url_for('/') %>"><%= config.title %></a>
+            <span></span>Copyright © <%- copyright_yr %> <a href="<%= url_for('/') %>" class="button"><%= config.title %></a></span>
+            <span> | </span>
+            <span><a href="<%= url_for('/atom.xml') %>" class="button">RSS</a></span>
         </p>
     <% } %>
     <% if (theme.footer.custom_text && theme.footer.custom_text.length) { %>
@@ -18,5 +20,14 @@
             <%- markdown(theme.footer.custom_text[i]) %>
         <% } %>
     <% } %>
-    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+    <p>
+        <span>Powered by <a href="https://hexo.io" target="_blank" ref="nofollow noopener noreferrer" class="button">Hexo</a></span>
+        <span> | </span>
+        <span>Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank" rel="nofollow noopener noreferrer" class="button">Cards</a></span>
+    </p>
+    <% if (page.copyright !== false) { %>
+    <p>
+            <span><a href="<%= theme.meta.copyright.license_url %>" rel="nofollow noopener noreferrer" target="_blank" class="button"><%= theme.meta.copyright.license_name %></a></span>
+    </p>
+    <% } %>
 </footer>

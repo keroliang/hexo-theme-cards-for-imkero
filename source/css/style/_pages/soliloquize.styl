@@ -1,0 +1,254 @@
+#soliloquize-header
+  max-width var(--content-width);
+  margin 0 auto calc(var(--space) * 0.2);
+  display: flex;
+
+.soliloquize-header__left
+  flex-grow: 1;
+  color: $color_secondary;
+
+.soliloquize-header__right
+  font-size: 0;
+
+.soliloquize-header_btn
+  font-size: 12px;
+  border: 1px solid #cfd5de;
+  padding: 2px 6px;
+  display: inline-block;
+  user-select: none;
+  vertical-align: middle;
+  height: 26px;
+
+  & + &
+    margin-left: -1px;
+
+.soliloquize-page-btn
+  font-size: 14px;
+  background-color: #fff;
+  cursor: pointer;
+
+  &:hover
+    background-color: #eaedf1;
+
+  &.is-disabled
+    cursor: not-allowed;
+    background-color: #e7eaef;
+
+.soliloquize-page-icon
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 10px;
+  height: 100%;
+  box-sizing: border-box;
+  display: inline-block;
+
+.soliloquize-page-text
+  padding-left: 14px
+  padding-right: 14px
+  background-color: #fff;
+
+.soliloquize-left-icon
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PHBhdGggZmlsbD0iIzg4OCIgZD0iTTEwIDR2OEw1IDh6Ii8+PC9zdmc+");
+
+.soliloquize-right-icon
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PHBhdGggZmlsbD0iIzg4OCIgZD0iTTYgMTJWNGw1IDR6Ii8+PC9zdmc+");
+
+.soliloquize-entry
+  position relative
+  box-shadow 0 2px 4px rgba(3,27,78,.06)
+  transition none
+  background-color var(--bg-content-color)
+  max-width var(--content-width)
+  margin 0 auto calc(var(--space) * 0.6)
+  padding calc(var(--space) * 0.6) calc(var(--space) * 0.8)
+  border-radius $radius_main
+  border 1px solid #E5E8ED
+
+  &>:first-child
+    margin-top 0
+
+  &>:last-child
+    margin-bottom 0
+
+  a
+    border-bottom 2px solid transparent
+    color $color_theme
+    text-decoration none
+    &:hover
+      border-bottom-color $color_theme
+      color $color_theme
+      text-decoration none
+
+.soliloquize-entry__content
+  word-break: break-word
+  &>:last-child
+    margin-bottom 0
+  img
+    max-height: 40vh
+  p
+    margin-bottom: 10px
+  a[data-is-music]
+    &.is-loading
+      color: $color_secondary
+      &:hover
+        border-color: transparent
+  .aplayer
+    max-width: 450px
+
+.soliloquize-entry__meta
+  margin-bottom 4px
+  color: $color_secondary
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
+.tea-icon 
+  width: 16px
+  height: 16px
+  display: inline-block
+  vertical-align: middle
+  background-repeat: no-repeat
+  background-position: inherit
+  font-size: 0
+
+.tea-icon-loading
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTggMTZBOCA4IDAgMSAxIDggMHYyYTYgNiAwIDEgMCA2IDZoMmE4IDggMCAwIDEtOCA4eiIgZmlsbD0iIzAwNmVmZiIgZmlsbC1ydWxlPSJldmVub2RkIi8+PC9zdmc+")
+  -webkit-animation: spin 0.6s linear infinite
+  animation: spin 0.6s linear infinite
+
+.tea-icon-error
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTcgMTJoMnYtMkg3djJ6bTAtM2gyVjRIN3Y1em0xIDVjLTMuMzA5IDAtNi0yLjY5MS02LTZzMi42OTEtNiA2LTYgNiAyLjY5MSA2IDYtMi42OTEgNi02IDZ6TTggMGE4IDggMCAxIDAgMCAxNkE4IDggMCAwIDAgOCAweiIgZmlsbD0iI2U1NDU0NSIgZmlsbC1ydWxlPSJldmVub2RkIi8+PC9zdmc+")
+
+.soliloquize-indicator-icon
+  margin-right 2px
+
+.soliloquize-root
+  .soliloquize-loading-indicator,
+  .soliloquize-error-indicator
+    display: none
+
+  &.is-loading > .soliloquize-loading-indicator,
+  &.is-error > .soliloquize-error-indicator
+    display: block
+
+#soliloquize-entry-template
+  display: none
+
+.soliloquize-entry__meta-sep-1
+  margin: 0 4px
+  
+.soliloquize-entry:not(.has-category)
+  .soliloquize-entry__meta-sep-1, .soliloquize-entry__category
+    display: none
+  
+.soliloquize-entry__music
+  display: none
+  color: $color_secondary
+  font-size: 14px
+  margin-top: 4px
+
+.soliloquize-entry__music-title:hover
+  color: $color_theme
+  cursor: pointer
+
+.soliloquize-entry.has-music
+  .soliloquize-entry__music
+    display: block
+
+.soliloquize-pagination
+  position relative
+  box-shadow 0 2px 4px rgba(3,27,78,.06)
+  transition none
+  background-color var(--bg-content-color)
+  max-width var(--content-width)
+  margin calc(var(--space) * 0.5) auto 0
+  padding calc(var(--space) * 0.6) calc(var(--space) * 0.8)
+  border-radius $radius_main
+  border 1px solid #E5E8ED
+  text-align: center
+
+.soliloquize-pagination__prev-btn.is-disabled,
+.soliloquize-pagination__next-btn.is-disabled
+  visibility: hidden
+
+.soliloquize-pagination__prev-btn,
+.soliloquize-pagination__next-btn
+  border-bottom: 2px solid transparent
+
+  &:hover
+    border-bottom-color: $color_theme
+  
+.soliloquize-pagination__page-num
+  margin: 0 8px
+
+.soliloquize-pagination__page-sep
+  margin 0 4px
+
+.soliloquize-pagination__current-page
+  margin-left: 4px
+
+.soliloquize-pagination__total-page
+  margin-right: 4px
+
+.soliloquize-root.is-loading .soliloquize-pagination,
+.soliloquize-root.is-error .soliloquize-pagination
+  display: none
+
+.soliloquize-image-fullscreen
+  display: none
+  position: fixed
+  z-index: 1000
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  background-color: rgba(0,0,0, 0.9)
+  
+  .image-container
+    max-width: 100%
+    max-height: 100%
+  
+  &.is-opened
+    display: block
+  
+  .aligner
+    display: flex
+    width: 100%
+    height: 100%
+    justify-content: center
+    align-items: center
+
+  .close-btn
+    position: absolute
+    right: 0
+    top: 0
+    width: 48px
+    height: 48px
+    line-height: 48px
+    text-align: center
+    background-color: rgba(0,0,0, 0.6)
+    font-size: 32px
+    color: #aaa
+    cursor: pointer
+    user-select: none
+    -webkit-user-select: none
+    z-index: 1
+    &:hover
+      color: #fff
